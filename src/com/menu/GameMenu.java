@@ -28,7 +28,7 @@ import static com.menu.MathHelper.*;
 
 public class GameMenu {
 
-	/*
+	/**
 	 * We wish to accomplish the following tasks in this program:
 	 * 
 	 * (1) Create a side bar in the window which will act as a menu side bar 2.
@@ -45,7 +45,6 @@ public class GameMenu {
 	 * BONUS: create pedestrians (as small boxes) which will travel from one box to
 	 * another in a straight line
 	 */
-
 	private static int height = 800;
 	private static int width = 1200;
 	private static long window;
@@ -57,7 +56,7 @@ public class GameMenu {
 	private static SimWindow menu;
 	private static SimWindow sim;
 
-	// VBO's
+	/* VBO's */
 	private static Sidebar sidebar;
 	private static Sidebar simbar;
 	private static SidebarSymbols cart;
@@ -66,7 +65,7 @@ public class GameMenu {
 	private static SidebarSymbols guardrail2;
 	private static SidebarSymbols pedestrian;
 
-	// Menu clicked
+	/* Menu clicked */
 	private static Boolean menu_clicked = false;
 	private static Button button_clicked = null;
 
@@ -102,7 +101,7 @@ public class GameMenu {
 
 	public static void setInputCallbacks() {
 
-		/*
+		/**
 		 * This function is called on mouse hover interrupt, for now, it only handles
 		 * structure tracing (after the user has clicked on menu to place an object to
 		 * sim window
@@ -139,7 +138,7 @@ public class GameMenu {
 
 		});
 
-		/*
+		/**
 		 * This function is called on mouse click interrupt. It handles all clicks to
 		 * the window. For now, the only case handled is if the user clicks on the menu
 		 * to select an object.
@@ -169,8 +168,7 @@ public class GameMenu {
 				Symbols s = whichGrid(c, menu, sim);
 				GridPiece gp = whichPiece(c, menu, sim, s);
 
-				System.out
-						.println("menu clicked: " + menu_clicked + ", button_clicked: " + (button_clicked == null ? null
+				System.out.println("menu clicked: " + menu_clicked + ", button_clicked: " + (button_clicked == null ? null
 								: (button_clicked.getX_center() + ", " + button_clicked.getY_center())));
 
 				if (s.equals(Symbols.MENU) && (!menu_clicked) && (button_clicked == null)
@@ -230,20 +228,22 @@ public class GameMenu {
 	 */
 	public static void initVbos() {
 
-		// Managing all components (e.g. buttons, marks etc.) - storage space for all
-		// Back end components not involving pedestrians
+		/* 
+		 * Managing all components (e.g. buttons, marks etc.) - storage space for all
+		 * Backend components not involving pedestrians
+		 */
 		menu = new SimWindow(0.5f, 2.0f, 0.5f);
 		menu.initGrid(2, 4, 0.0f);
 
-		// Part of the window which carries out all the simulations, and control
+		/* Part of the window which carries out all the simulations, and control */
 		sim = new SimWindow(1.5f, 2.0f, -1.0f);
 		sim.initGrid((int) (sim.getWidth() / 0.07f), (int) (sim.getHeight() / 0.1f), 0.0f);
 
-		// Side bar of the game (located on the left strip of the window)
+		/* Side bar of the game (located on the left strip of the window) */
 		sidebar = initSidebarVbo(menu);
 		simbar = initMainSimWindow(sim);
 
-		// Initialize cart buttons and snap them to the menu grid
+		/* Initialize cart buttons and snap them to the menu grid */
 		Button cart_btn = new Button(-0.1f, 0.3f, 0.1f, 0.1f, Symbols.S_CART, new SimPiece(3, 2));
 		menu.setCart(cart_btn);
 		snap(menu.getGrid(), cart_btn, false);
@@ -285,7 +285,7 @@ public class GameMenu {
 
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		// Render the side bar through Sidebar VBO
+		/* Render the side bar through Sidebar VBO */
 		sidebar.render();
 		simbar.render();
 
@@ -345,12 +345,8 @@ public class GameMenu {
 						symbol = Symbols.S_PEDESTRIAN;
 						Pedestrian ped = (Pedestrian) piece.getComponent();
 						if (ped.getNext_move() != null) {
-//							RowCol next_rc = getIndexFromCoords(sim, new Coords(ped.getNext_move().getX_pos(), ped.getNext_move().getY_pos()));
-//							System.out.println("   next move: (" + next_rc.getRow() + "," + next_rc.getCol() + ")");
 							renderPedestrian(ped);
 						}
-//						else 
-//							System.out.println("We've got a problem!");
 					}
 					else {
 						System.out.println("Piece Class: " + piece.getComponent());
@@ -372,6 +368,7 @@ public class GameMenu {
 					glVertex2f(piece.getX_pos() + gridWidth / 2, piece.getY_pos() - gridHeight / 2);
 					continue;
 				}
+				
 				/*
 				 * glColor4f: Setting the colors for each of the points glVertex2f: Drawing each
 				 * vertex of the quad, and at the end, is filled in
